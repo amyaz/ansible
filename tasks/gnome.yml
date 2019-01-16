@@ -7,3 +7,10 @@
 - name: Set GNOME Wallpaper
   become_user: amyaz
   dconf: key="/org/gnome/desktop/background/picture-uri" value="'file:///home/amyaz/.wallpaper.jpg'"
+
+- name: Copy lockscreenfile
+  copy: src=files/lockscreen.jpg dest=/home/amyaz/.lockscreen.jpg owner=amyaz group=amyaz mode=600
+
+- name: Set lock screen background
+  become_user: amyaz
+  dconf: key="/org/gnome/desktop/screensaver/picture-uri" value="'file:///home/amyaz/.lockscreen.jpg'"
