@@ -1,3 +1,6 @@
+- name: Install arc theme
+  apt: name=arc-theme
+
 - name: Install python-psutil package
   apt: name=python-psutil
 
@@ -14,3 +17,7 @@
 - name: Set lock screen background
   become_user: amyaz
   dconf: key="/org/gnome/desktop/screensaver/picture-uri" value="'file:///home/amyaz/.lockscreen.jpg'"
+
+- name: Set GTK theme
+  become_user: amyaz
+  dconf: key="/org/gnome/desktop/interface/gtk-theme" value="'Arc'"
