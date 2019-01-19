@@ -1,0 +1,47 @@
+---
+
+- name: install packages required by docker
+  apt:
+    name: "{{ package_dependencies + pip_dependencies }}"
+
+- name: add docker repository key
+  apt_key:
+    id: "{{ apt_key_id }}"
+    url: "{{ apt_key_url }}"
+
+- name: add docker repository and update apt cache
+  apt_repository:
+    repo: "{{ apt_repository }}"
+    update_cache: true
+
+- name: install docker package
+  apt:
+    name: "docker-ce"
+    state: "present"
+
+- name: enable docker start at boot
+  systemd:
+    name: "docker"
+    state: "started"
+    enabled: true
+
+- name: add user(s) to "docker" group
+  user:
+    name: "{{ item }}"
+    groups: "docker"
+    append: true
+  loop: "{{ docker_users }}"
+
+- name: add docker registry mirrors
+  template:
+    src: "etc/docker/daemon.json.j2"
+    dest: "/etc/docker/daemon.json"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  notify: ["restart docker"]
+
+- name: install docker-compose
+  pip:
+    name: "docker-compose"
+    state: "present"
