@@ -16,5 +16,5 @@ sudo apt install git ansible
 
 应用 playbook ：
 ```
-sudo ansible-pull -U https://gitee.com/amyaz/ansible.git
+sudo ansible-pull -U https://github.com/amyaz/ansible.git
 ```
